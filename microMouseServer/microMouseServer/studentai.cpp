@@ -8,20 +8,20 @@ int rCount = 0;
 int lCount = 0;
 int checked[20][20];
 bool firstRun = true;
-int x = 0; int y = 0;
-int dir = 0;
+
+int xc = 0; int yc = 0; int dir = 0;
 void microMouseServer::studentAI()
 {
     if(dir == 0){
-        printUI("0");
+        //printUI("0");
     } else if (dir == 1) {
-        printUI("1");
+        //printUI("1");
     } else if (dir == 2) {
-        printUI("2");
+        //printUI("2");
     } else if (dir == 3) {
-        printUI("3");
+        //printUI("3");
     } else {
-        printUI("no");
+        //printUI("no");
     }
     if (firstRun == true) {
         for (int i = 0; i < 20; i++) {
@@ -34,34 +34,42 @@ void microMouseServer::studentAI()
     if (isWallRight() && isWallLeft() && isWallForward()) {
         myTurnRight();
         myTurnRight();
-        moveForward();
         rCount = 0;
         lCount = 0;
     }
     //needs to go right
     else if (!isWallRight()) {
         myTurnRight();
-        moveForward();
         rCount++;
         lCount = 0;
     }
     //needs to go left
     else if (isWallRight() && isWallForward()) {
         myTurnLeft();
-        moveForward();
         lCount++;
         rCount = 0;
     }
     //needs to go forward
     else {
-        moveForward();
         lCount = 0;
         rCount = 0;
     }
+    moveForward();
+    if (dir == 0) {
+        yc++;
+    } else if (dir == 2) {
+        yc--;
+    } else if (dir == 1) {
+        xc++;
+    } else if (dir == 3) {
+        xc--;
+    }
+    checked[xc][yc] = 1;
     if ((rCount == 3) || (lCount == 3)) {
         foundFinish();
         return;
     }
+
 /*
  * The following are the eight functions that you can call. Feel free to create your own fuctions as well.
  * Remember that any solution that calls moveForward more than once per call of studentAI() will have points deducted.
