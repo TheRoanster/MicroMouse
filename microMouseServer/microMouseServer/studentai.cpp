@@ -1,27 +1,53 @@
 
 #include "micromouseserver.h"
+#define myTurnLeft() turnLeft(); dir = (dir+3)%4;
+#define myTurnRight() turnRight(); dir = (dir+1)%4;
+#include <iostream>
+//dir: 0 -> north, 1-> right, 2->down, 3 -> left,
 int rCount = 0;
 int lCount = 0;
+int checked[20][20];
+bool firstRun = true;
+int x = 0; int y = 0;
+int dir = 0;
 void microMouseServer::studentAI()
 {
-    //180 turn around
+    if(dir == 0){
+        printUI("0");
+    } else if (dir == 1) {
+        printUI("1");
+    } else if (dir == 2) {
+        printUI("2");
+    } else if (dir == 3) {
+        printUI("3");
+    } else {
+        printUI("no");
+    }
+    if (firstRun == true) {
+        for (int i = 0; i < 20; i++) {
+            for (int j =0; j<20; j++) {
+                checked[i][j] = 0;
+            }
+        }
+        firstRun = false;
+    }
     if (isWallRight() && isWallLeft() && isWallForward()) {
-        turnRight();
-        turnRight();
+        myTurnRight();
+        myTurnRight();
         moveForward();
         rCount = 0;
         lCount = 0;
     }
     //needs to go right
     else if (!isWallRight()) {
-        turnRight();
+        myTurnRight();
         moveForward();
         rCount++;
         lCount = 0;
     }
     //needs to go left
     else if (isWallRight() && isWallForward()) {
-        turnLeft();
+        myTurnLeft();
         moveForward();
         lCount++;
         rCount = 0;
